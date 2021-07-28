@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dao.AdminuserDao">
+
+
+    <select id="checkLoginadmin"  resultType="Adminuser" parameterType="Adminuser">
+            SELECT * FROM adminuser where BINARY adminname=#{adminname} and BINARY adminpassword=#{adminpassword}
+    </select>
+
+
+    <update id="updateadminuserinfo" parameterType="Adminuser">
+        UPDATE adminuser SET adminname = #{adminname}, adminpassword = #{adminpassword},admininfo = #{admininfo},adminphone = #{adminphone} ,adminemail = #{adminemail}  WHERE adminid = #{adminid}
+    </update>
+
+</mapper>

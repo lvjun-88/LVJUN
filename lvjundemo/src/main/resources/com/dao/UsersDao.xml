@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dao.UsersDao">
+        <select id="getUsersAll"  resultType="Users">
+            SELECT * FROM users
+        </select>
+    <select id="checkLogin"  resultType="Users" parameterType="Users">
+            select * from users where BINARY uname=#{uname} and BINARY upass=#{upass}
+        </select>
+    <select id="checkUname"  resultType="Users" parameterType="Users">
+            select * from users where uname=#{uname}
+        </select>
+<!--    <select id="checkuid"  resultType="Users" parameterType="int">-->
+<!--            select * from users where uid=#{id}-->
+<!--        </select>-->
+
+
+    <select id="checkuname"  resultType="Users" parameterType="String">
+            select * from users where uname=#{name}
+        </select>
+    <insert id="addUsersRegister"  parameterType="Users">
+            insert into users(uname,upass,uemail,uphoneid) value (#{uname},#{upass},#{uemail},#{uphoneid})
+        </insert>
+    <update id="updateusertime" parameterType="Users">
+        UPDATE users SET utime = #{utime} WHERE uid  = #{uid}
+    </update>
+    <update id="updatemypass" parameterType="Users">
+        UPDATE users SET upass = #{upass} WHERE uid = #{uid} and uname = #{uname}
+    </update>
+
+    <select id="getmycomments"  resultType="Users" parameterType="int">
+            select ac.acid,a.aimg,a.aid,a.aname,ac.comment,ac.actime from articlecomments ac join articles a on ac.aid = a.aid where ac.uid=#{uid}
+        </select>
+
+    <update id="updatemyuserinfo" parameterType="Users">
+        UPDATE users SET uname = #{uname},uemail = #{uemail} ,uphoneid = #{uphoneid},usignature = #{usignature} ,uicon = #{uicon},uwximag=#{utime} WHERE uid = #{uid}
+    </update>
+
+
+    <delete id="deletearticleinfo" parameterType="int">
+        delete from articles where aid = #{aid}
+    </delete>
+
+    <delete id="deletemycomments" parameterType="int">
+        delete from articlecomments where acid = #{acid}
+    </delete>
+
+    <select id="getArticleuserinfo"  resultType="Users" parameterType="int">
+            SELECT a.aid,u.uid,u.uname,u.uwximag FROM articles a JOIN users u ON a.uid = u.uid where a.aid = #{aid}
+        </select>
+
+    <select id="getuseroneinfo"  resultType="Users" parameterType="int">
+            SELECT uid,uname,uemail,uphoneid,usignature,utime,uicon FROM users where uid = #{uid}
+        </select>
+
+
+    <select id="getuserstableinfo"  resultType="Users" >
+            SELECT * FROM users
+        </select>
+
+
+
+    <delete id="deleteoneuser" parameterType="int">
+        delete from users where uid = #{uid}
+    </delete>
+
+
+    <select id="getonearticleinfo" parameterType="int" resultType="Users" >
+            SELECT * FROM users where uid = #{uid}
+        </select>
+
+
+    <update id="updateoneuser" parameterType="Users">
+        UPDATE users SET uicon = #{uicon}, uname = #{uname},upass = #{upass},usignature = #{usignature} ,uemail = #{uemail} ,uphoneid = #{uphoneid},uwximag=#{uwximag} WHERE uid = #{uid}
+    </update>
+
+    <select id="getuserscount"  resultType="int" >
+            SELECT count(*) FROM users
+        </select>
+
+</mapper>

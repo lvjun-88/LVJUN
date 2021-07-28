@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dao.ArticletypesDao">
+
+    <select id="getarticletypes"  resultType="Articletypes">
+          SELECT * FROM articletypes
+    </select>
+
+    <select id="getarticletypesinfo" parameterType="int" resultType="Articletypes">
+          SELECT * FROM articletypes where atid = #{atid}
+    </select>
+    <select id="getarticletypecounts"  resultType="int">
+          SELECT count(*) FROM articletypes
+    </select>
+
+
+    <select id="getarticletypestableinfo"  resultType="Articletypes">
+          SELECT * FROM articletypes
+    </select>
+    <insert id="addonearticletypeinfo"  parameterType="Articletypes">
+            insert into articletypes(atype) value (#{atype})
+    </insert>
+
+
+    <delete id="deleteonearticletype" parameterType="int">
+        delete from articletypes where atid = #{atid}
+    </delete>
+
+
+    <select id="updateonearticletypejsp" parameterType="int" resultType="Articletypes">
+          SELECT * FROM articletypes where atid = #{atid}
+    </select>
+
+
+    <update id="updatearticletypeinfo" parameterType="Articletypes">
+        UPDATE articletypes SET atype = #{atype}   WHERE atid  = #{atid}
+    </update>
+</mapper>

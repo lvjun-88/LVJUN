@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 一对一关联  一个员工对应一个部门  一篇文章对应一种类型  -->
+
+<mapper namespace="com.dao.ArticlesDao">
+
+
+
+    <resultMap id="typeArticles" type="Articles">
+        <!--           id修饰的是主键-->
+        <id column="aid" property="aid" />
+        <result column="aimg" property="aimg"/>
+        <result column="aname" property="aname"/>
+        <result column="ainfo" property="ainfo"/>
+        <result column="article" property="article"/>
+        <result column="atime" property="atime"/>
+        <result column="alike" property="alike"/>
+        <result column="atid" property="atid"/>
+        <result column="uid" property="uid"/>
+        <result column="alooks" property="alooks"/>
+        <result column="acommentcounts" property="acommentcounts"/>
+
+        <!--            一个类型对于多个文章 是一种  多对一 的关系  property是集合的属性名称  ofType集合中存放的类型  column外键字段  select子查询 -->
+        <association property="articletypes" javaType="Articletypes"  >
+            <id column="atid" property="atid" />
+            <result column="atype" property="atype"/>
+        </association>
+    </resultMap>
+    <!--    &lt;!&ndash;    子查询入口&ndash;&gt;-->
+    <!--        <select id="getemps" parameterType="int" resultMap="deptemp">-->
+    <!--            select * from dept where deptno=#{deptno}-->
+    <!--        </select>-->
+
+
+    <select id="getarticletypesinfo" parameterType="int" resultMap="typeArticles">
+        SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid where articletypes.atid = #{atid}
+    </select>
+
+    <select id="getarticletypesinfojson" parameterType="Articles" resultMap="typeArticles">
+       SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid where articletypes.atid = #{uid} ORDER BY atime DESC limit #{page},#{limit}
+    </select>
+
+
+    <select id="getarticlesearchlistjson" parameterType="Articles"   resultMap="typeArticles">
+        SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid where articles.aname LIKE #{search} ORDER BY atime DESC limit #{page},#{limit}
+    </select>
+
+
+    <select id="getarticlesearch" parameterType="String"   resultMap="typeArticles">
+        SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid  where aname LIKE #{search}
+    </select>
+
+    <select id="getgetarticlesearchcount" parameterType="String" resultType="int">
+            SELECT count(*) FROM articles  join articletypes  on articles.atid=articletypes.atid  where aname LIKE #{search}
+     </select>
+
+    <select id="getarticletypesinfocount" parameterType="int"  resultType="int">
+            SELECT count(*) FROM articles  join articletypes  on articles.atid=articletypes.atid  where articletypes.atid = #{atid}
+     </select>
+
+
+    <select id="getarticleslistjson" parameterType="Articles" resultMap="typeArticles">
+       SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid ORDER BY atime DESC limit #{page},#{limit}
+    </select>
+
+
+    <select id="getarticlescount"  resultType="int">
+            SELECT count(*) FROM articles  join articletypes  on articles.atid=articletypes.atid ORDER BY atime DESC
+     </select>
+
+    <select id="getArticesatype"  resultMap="typeArticles">
+        SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid
+    </select>
+
+    <select id="getArticlestimedesc"  resultMap="typeArticles">
+            SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid order by alike desc limit 10;
+        </select>
+        <select id="getArticlesAll"  resultType="Articles">
+            SELECT * FROM articles
+        </select>
+
+
+        <select id="getArticletypesAll"  resultType="Articletypes">
+            SELECT * FROM articletypes
+        </select>
+
+        <select id="articleinfo"   parameterType="int" resultMap="typeArticles">
+            SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid where articles.aid=#{aid}
+        </select>
+
+    <insert id="addpublisharticle"  parameterType="Articles">
+            insert into articles(aimg,aname,ainfo,article,atime,atid,uid) value (#{aimg},#{aname},#{ainfo},#{article},#{atime},#{atid},#{uid})
+    </insert>
+
+    <select id="findmyuserarticles"   parameterType="Articles" resultMap="typeArticles">
+            SELECT * FROM articles  join articletypes  on articles.atid=articletypes.atid where uid = #{uid} ORDER BY atime DESC limit #{page},#{limit}
+        </select>
+
+    <select id="getuserarticlescount" parameterType="int" resultType="int">
+            SELECT count(*) FROM articles  join articletypes  on articles.atid=articletypes.atid where uid = #{uid}
+        </select>
+
+
+    <update id="updatearticlealooks" parameterType="Articles">
+        UPDATE articles SET alooks = #{page} WHERE aid  = #{limit}
+    </update>
+
+
+    <select id="getarticlecommentscount" parameterType="int" resultType="int">
+            SELECT count(*) FROM articlecomments where aid = #{aid}
+        </select>
+
+    <update id="updatearticlecommentscount" parameterType="Articles">
+        UPDATE articles SET acommentcounts = #{page} WHERE aid  = #{limit}
+    </update>
+
+    <update id="updatearticlealike" parameterType="Articles">
+        UPDATE articles SET alike = #{page} WHERE aid  = #{limit}
+    </update>
+
+    <select id="getnextarticles" parameterType="int" resultType="Articles">
+            SELECT * FROM articles where aid = #{aid}
+        </select>
+
+    <select id="getnextfourarticles" parameterType="int" resultType="Articles">
+            SELECT * FROM articles where aid  BETWEEN #{aid} and #{aid}+3  LIMIT 4
+        </select>
+
+
+    <select id="getalooksarticles"  resultType="Articles">
+            SELECT * FROM articles ORDER BY alooks DESC LIMIT 10
+        </select>
+
+
+    <select id="getarticlestableinfo"  resultType="Articles">
+            SELECT a.aid,a.aimg,a.aname,a.ainfo,a.article,a.atime,(SELECT atype FROM articletypes WHERE atid = a.atid) as atype,(SELECT uname FROM users WHERE uid = a.uid) as uname,a.alike,a.alooks,a.acommentcounts FROM articles a JOIN articletypes at on a.atid = at.atid JOIN users u on a.uid = u.uid
+        </select>
+
+    <delete id="deleteonearticle" parameterType="int">
+        delete from articles where aid = #{aid}
+    </delete>
+
+    <select id="getonearticleinfo"  parameterType="int" resultType="Articles">
+            SELECT a.aid,a.aimg,a.aname,a.ainfo,a.article,a.atime,a.atid,(SELECT atype FROM articletypes WHERE atid = a.atid) as atype,a.uid,(SELECT uname FROM users WHERE uid = a.uid) as uname,a.alike,a.alooks,a.acommentcounts FROM articles a JOIN articletypes at on a.atid = at.atid JOIN users u on a.uid = u.uid where a.aid = #{aid}
+        </select>
+
+    <update id="updateonearticle" parameterType="Articles">
+        UPDATE articles SET aimg = #{aimg},aname = #{aname} ,ainfo = #{ainfo},article = #{article} ,atime = #{atime},alike=#{alike} ,atid=#{atid} ,uid=#{uid} ,alooks=#{alooks} ,acommentcounts = #{acommentcounts} WHERE aid = #{aid}
+    </update>
+
+    <select id="getarticlecounts"  resultType="int">
+            SELECT count(*) FROM articles
+        </select>
+
+
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dao.WebDao">
+
+
+    <select id="getweball"  resultType="Web" >
+            SELECT * FROM web
+    </select>
+
+    <update id="updatewebinfo" parameterType="Web">
+        UPDATE web SET webname = #{webname} ,logo = #{logo}, webimage1 = #{webimage1},webimagename1 = #{webimagename1},webimageurl1 = #{webimageurl1},webimage2 = #{webimage2}, webimagename2 = #{webimagename2},webimageurl2 = #{webimageurl2},webimage3 = #{webimage3},webimagename3 = #{webimagename3},webimageurl3 = #{webimageurl3},webtwo = #{webtwo},webbeian = #{webbeian}  WHERE webid  = #{webid}
+    </update>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dao.ChatsDao">
+
+
+    <insert id="addchatsoneinfo"  parameterType="Chats">
+            insert into chats(fsid,fsinfo,fstime,jsid) value (#{fsid},#{fsinfo},#{fstime},#{jsid})
+    </insert>
+
+
+    <select id="getmychats"  resultType="Chats" parameterType="int">
+             SELECT (SELECT uname FROM users where uid= c.fsid) as name,c.cid,c.fsid,c.fsinfo,c.fstime,c.jsid FROM chats c JOIN users u on c.jsid = u.uid where u.uid = #{uid}
+        </select>
+
+    <delete id="deletemychats" parameterType="int">
+        delete from chats where cid = #{cid}
+    </delete>
+
+</mapper>

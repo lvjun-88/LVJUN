@@ -1,0 +1,88 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "welcome"
+  },
+  "logoInfo": {
+    "title": "后台管理中心",
+    "image": "images/adminimg/logo.png",
+    "href": "admin"
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "主页",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "主页",
+              "href": "welcome",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "前端首页",
+              "href": "getindexonehome",
+              "icon": "fa fa-bank",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "页面管理",
+          "href": "",
+          "icon": "fa fa-cogs",
+          "target": "_self",
+          "child": [
+            {
+              "title": "首页信息",
+              "href": "getwebinfo",
+              "icon": "fa fa-window-maximize",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "内容管理",
+          "href": "",
+          "icon": "fa fa-database",
+          "target": "_self",
+          "child": [
+            {
+              "title": "文章信息",
+              "href": "getarticlestableinfo",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "文章类型",
+              "href": "getarticletypestableinfo",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "用户信息",
+              "href": "getuserstableinfo",
+              "icon": "fa fa-suitcase",
+              "target": "_self"
+            },
+            {
+              "title": "评论信息",
+              "href": "getcommentstableinfo",
+              "icon": "fa fa-comments-o",
+              "target": "_self"
+            }
+
+          ]
+        }
+      ]
+    }
+  ]
+}

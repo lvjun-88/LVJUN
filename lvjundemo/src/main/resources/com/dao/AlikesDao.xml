@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dao.AlikesDao">
+
+
+    <insert id="addalikes"  parameterType="Alikes">
+            insert into alikes(alikeaid,alikeuid,aliketime) value (#{alikeaid},#{alikeuid},#{aliketime})
+        </insert>
+
+
+    <select id="checkalikes"  resultType="Alikes" parameterType="Alikes">
+            select * from alikes where  alikeaid=#{alikeaid} and alikeuid=#{alikeuid}
+    </select>
+
+    <select id="getalikes"  resultType="int" parameterType="int">
+            SELECT count(*) FROM alikes where alikeaid = #{aid}
+    </select>
+</mapper>
