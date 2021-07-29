@@ -16,7 +16,6 @@ public class LvjunUtil {
         long startTime=System.nanoTime(); //获取开始时间
 
         lu.BubbleSort(arr,arr.length);
-
         System.out.println(Arrays.toString(arr));
         long endTime=System.nanoTime(); //获取结束时间
         upTime = new BigDecimal(endTime-startTime).divide(new BigDecimal(1000)).doubleValue();//耗时(秒)
@@ -141,6 +140,40 @@ public class LvjunUtil {
         }
     }
 
+
+    //快速排序
+    //快速排序   hoare版本(左右指针法)
+    void QuickSort(int[] arr, int begin, int end)
+    {
+        //只有一个数或区间不存在
+        if (begin >= end){
+            return;
+        }
+        int left = begin;
+        int right = end;
+        //选左边为key
+        int keyi = begin;
+        while (begin < end)
+        {
+            //右边选小   等号防止和key值相等    防止顺序begin和end越界
+            while (arr[end] >= arr[keyi] && begin < end)
+            {
+                --end;
+            }
+            //左边选大
+            while (arr[begin] <= arr[keyi] && begin < end)
+            {
+                ++begin;
+            }
+            //小的换到右边，大的换到左边
+            swap(begin,end,arr);
+        }
+        swap(keyi,end,arr);
+        keyi = end;
+        //[left,keyi-1]keyi[keyi+1,right]
+        QuickSort(arr, left, keyi - 1);
+        QuickSort(arr,keyi + 1,right);
+    }
 
 
 
